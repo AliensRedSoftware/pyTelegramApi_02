@@ -8,13 +8,47 @@ import os
 import sys
 import requests
 
+class InlineKeyBoard:
+	Redirect=False #Редирект
+	def UXBtn(data = {'txt':'нажми'}): #UXBtn
+		txt=data['txt']
+		try:
+			url=data['url']
+			vrm = '"text":"{0}", "url":"{1}"'.format(txt,url)
+		except:
+			try:
+				func=data['func']
+				vrm = '"text":"{0}", "callback_data": "{1}"'.format(txt,func)
+			except:
+				vrm = '"text":"{0}"'.format(txt)
+		return "{"+vrm+"}"
+	def UXItem(item=''): #UXItem
+		vrm = '"inline_keyboard": [['+item+']]'
+		return vrm
+	def keyboard(self, desc='Описание', items=''): #Возвращаем inline клавиаутуру
+		chat_id = str(pyTelegramApi.getChatId(self))
+		headers={
+			'Content-Type': 'application/json',
+		}
+		data = '{"chat_id":'+chat_id+', "text":"'+desc+'", "reply_markup": {'+items+'}}"'
+		data=data.encode('utf-8')
+		requests.post(pyTelegramApi.getToken(self)+'sendMessage', headers=headers, data=data)
+	def UpdateRedirect(selected): #Обновить пути
+		InlineKeyBoard.Redirect=selected
+	def getRedirect(name):
+		#Кнопки
+		B=InlineKeyBoard.UXBtn({'txt': '⬅️','func':InlineKeyBoard.Redirect+'@'+name}) #Назад
+		H=InlineKeyBoard.UXBtn({'txt':'🏠','func':'main@'+name}) #Домой
+		K=InlineKeyBoard.UXBtn({'txt':'❌','func':'kill@'+name}) #Покончить
+		#Ячейки
+		return InlineKeyBoard.UXItem(B+','+H+','+K)
+
 class pyTelegramApi:
 	token=0 #Токен
 	message_id=0 #message id
 	listcommand=[] #Лист комманд
 	stickerid=False #Стикер id
 	prefix='/' #Префикс
-	Redirect=False #Редирект
 	def setToken(self, token): #Установка токена
 		self.token = token
 		print ('[Успешно :)] [Токен => {0}]'.format(token))
@@ -68,41 +102,9 @@ class pyTelegramApi:
 		pyTelegramApi.request(pyTelegramApi.getToken(self), 'sendSticker', {'chat_id' : chatid, 'sticker' : StickerId})
 	def getStickerId (): #Возвращаем id стикера
 		return pyTelegramApi.stickerid
-	def getKeyboardBtn (data = {'txt':'нажми'}):
-		txt=data['txt']
-		try:
-			url=data['url']
-			vrm = '"text":"{0}", "url":"{1}"'.format(txt,url)
-		except:
-			try:
-				func=data['func']
-				vrm = '"text":"{0}", "callback_data": "{1}"'.format(txt,func)
-			except:
-				vrm = '"text":"{0}"'.format(txt)
-		return "{"+vrm+"}"
-	def getKeyboardItem (item=''):
-		vrm = '"inline_keyboard": [['+item+']]'
-		return vrm
 	def DeleteMessage(self,id):
 		chatid=pyTelegramApi.getChatId(self)
 		pyTelegramApi.request(pyTelegramApi.getToken(self), 'deleteMessage', {'chat_id' : chatid,'message_id': id})
-	def keyboard(self, desc='Описание', items=''): #Возвращаем inline клавиаутуру
-		chat_id = str(pyTelegramApi.getChatId(self))
-		headers={
-			'Content-Type': 'application/json',
-		}
-		data = '{"chat_id":'+chat_id+', "text":"'+desc+'", "reply_markup": {'+items+'}}"'
-		data=data.encode('utf-8')
-		requests.post(pyTelegramApi.getToken(self)+'sendMessage', headers=headers, data=data)
-	def UpdateRedirect(selected): #Обновить пути
-		pyTelegramApi.Redirect=selected
-	def getRedirect(name):
-		#Кнопки
-		B=pyTelegramApi.getKeyboardBtn({'txt': '⬅️','func':pyTelegramApi.Redirect+'@'+name}) #Назад
-		H=pyTelegramApi.getKeyboardBtn({'txt':'🏠','func':'main@'+name}) #Домой
-		K=pyTelegramApi.getKeyboardBtn({'txt':'❌','func':'kill@'+name}) #Покончить
-		#Ячейки
-		return pyTelegramApi.getKeyboardItem(B+','+H+','+K)
 	def getUpdates(token):#Бесконечный цикл
 		sys.setrecursionlimit(10000) #Кол-во запросов
 		json_response = pyTelegramApi.request(token, 'getUpdates', {'offset' : -1})
@@ -133,10 +135,10 @@ class pyTelegramApi:
 						command = str.split('=')[0]
 						text_gen = text.split('@')
 						if command == text_gen[0]:
-							print ('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
+							print('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
 							importlib.import_module('bot.modules.' + module).main()
 						elif command == text.split(' ')[0]:
-							print ('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
+							print('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
 							importlib.import_module('bot.modules.' + module).main()
 					pyTelegramApi.message_id = json_response['result'][0]['message']['message_id']
 					pyTelegramApi.getUpdates(token)

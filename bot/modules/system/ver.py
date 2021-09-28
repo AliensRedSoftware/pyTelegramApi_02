@@ -20,92 +20,92 @@ def SendRandomWaifu2d():#Отправка рандомного картинки 
 	img()
 
 def img():#Меню картинок
-	api.pyTelegramApi.UpdateRedirect('main')
+	api.InlineKeyBoard.UpdateRedirect('main')
 	#Навигация
-	hbk=api.pyTelegramApi.getRedirect(__name__)
+	bhk=api.InlineKeyBoard.getRedirect(__name__)
 	#Кнопки
-	ava=api.pyTelegramApi.getKeyboardBtn({'txt':'Арт 2д рандомный','func':'SendRandomWaifu2d@'+__name__}) #Кнопка
+	ava=api.InlineKeyBoard.UXBtn({'txt':'Арт 2д рандомный','func':'SendRandomWaifu2d@'+__name__}) #Кнопка
 	#Ячейки
-	item3=api.pyTelegramApi.getKeyboardItem(ava)
-	api.pyTelegramApi.keyboard(api,'Меню картинок :)',hbk+','+item3)
+	item3=api.InlineKeyBoard.UXItem(ava)
+	api.InlineKeyBoard.keyboard(api,'Меню картинок :)',bhk+','+item3)
 
 def system(): #Меню системные
-	api.pyTelegramApi.UpdateRedirect('main')
+	api.InlineKeyBoard.UpdateRedirect('main')
 	chat_id=api.pyTelegramApi.getChatId(api)
 	#Навигация
-	hbk=api.pyTelegramApi.getRedirect(__name__)
+	bhk=api.InlineKeyBoard.getRedirect(__name__)
 	#Ячейки
-	api.pyTelegramApi.keyboard(api,"Дополнительная информация\nID => **{0}**".format(chat_id),hbk)
+	api.InlineKeyBoard.keyboard(api,"Дополнительная информация\nID => **{0}**".format(chat_id),bhk)
 
 def ixbt(): #Меню новости
-	api.pyTelegramApi.UpdateRedirect('news')
+	api.InlineKeyBoard.UpdateRedirect('news')
 	#Навигация
-	hbk=api.pyTelegramApi.getRedirect(__name__)
+	bhk=api.InlineKeyBoard.getRedirect(__name__)
 	#Кнопки
-	NEW=api.pyTelegramApi.getKeyboardBtn({'txt':'🆕 Возвращаем новое','func':'getNewIxbt@'+__name__}) #Новая новость
-	Random=api.pyTelegramApi.getKeyboardBtn({'txt':'🎲 Возвращаем рандомное','func':'getRandomIxbt@'+__name__}) #Рандомное
+	NEW=api.InlineKeyBoard.UXBtn({'txt':'🆕 Возвращаем новое','func':'getNewIxbt@'+__name__}) #Новая новость
+	Random=api.InlineKeyBoard.UXBtn({'txt':'🎲 Возвращаем рандомное','func':'getRandomIxbt@'+__name__}) #Рандомное
 	#Ячейки
-	item=api.pyTelegramApi.getKeyboardItem(NEW)
-	item1=api.pyTelegramApi.getKeyboardItem(Random)
-	api.pyTelegramApi.keyboard(api,"Меню новости ixbt :)",hbk+','+item+','+item1)
+	item=api.InlineKeyBoard.UXItem(NEW)
+	item1=api.InlineKeyBoard.UXItem(Random)
+	api.InlineKeyBoard.keyboard(api,"Меню новости ixbt :)",bhk+','+item+','+item1)
 
 def news(): #Меню новости
-	api.pyTelegramApi.UpdateRedirect('main')
+	api.InlineKeyBoard.UpdateRedirect('main')
 	#Навигация
-	hbk=api.pyTelegramApi.getRedirect(__name__)
+	bhk=api.InlineKeyBoard.getRedirect(__name__)
 	#Кнопки
-	ixbt=api.pyTelegramApi.getKeyboardBtn({'txt':'ixbt','func':'ixbt@'+__name__}) #Кнопка
+	ixbt=api.InlineKeyBoard.UXBtn({'txt':'ixbt','func':'ixbt@'+__name__}) #Кнопка
 	#Ячейки
-	item=api.pyTelegramApi.getKeyboardItem(ixbt)
-	api.pyTelegramApi.keyboard(api,"Меню новости :)\nВыбор сайта",hbk+','+item)
+	item=api.InlineKeyBoard.UXItem(ixbt)
+	api.InlineKeyBoard.keyboard(api,"Меню новости :)\nВыбор сайта",bhk+','+item)
 
 def donate():
-	api.pyTelegramApi.UpdateRedirect('main')
+	api.InlineKeyBoard.UpdateRedirect('main')
 	#навигация
-	hbk=api.pyTelegramApi.getRedirect(__name__)
+	bhk=api.InlineKeyBoard.getRedirect(__name__)
 	#кнопки
-	donetealerts=api.pyTelegramApi.getKeyboardBtn({'txt':'DoneteAlerts','url':'https://www.donationalerts.com/r/mercurs'})
-	yandex=api.pyTelegramApi.getKeyboardBtn({'txt':'Яндекс Деньги','func':'donateYandex@'+__name__})
+	donetealerts=api.InlineKeyBoard.UXBtn({'txt':'DoneteAlerts','url':'https://www.donationalerts.com/r/mercurs'})
+	yandex=api.InlineKeyBoard.UXBtn({'txt':'Яндекс Деньги','func':'donateYandex@'+__name__})
 	#ячейки
-	item=api.pyTelegramApi.getKeyboardItem(donetealerts)
-	item1=api.pyTelegramApi.getKeyboardItem(yandex)
-	api.pyTelegramApi.keyboard(api,'Меню выбора способа оплаты :)',hbk+','+item1+','+item)
+	item=api.InlineKeyBoard.UXItem(donetealerts)
+	item1=api.InlineKeyBoard.UXItem(yandex)
+	api.InlineKeyBoard.keyboard(api,'Меню выбора способа оплаты :)',bhk+','+item1+','+item)
 
 def donateYandex(): #меню донат
-	api.pyTelegramApi.UpdateRedirect('donate')
+	api.InlineKeyBoard.UpdateRedirect('donate')
 	#навигация
-	hbk=api.pyTelegramApi.getRedirect(__name__)
+	bhk=api.InlineKeyBoard.getRedirect(__name__)
 	#кнопки
-	donate1=api.pyTelegramApi.getKeyboardBtn({'txt':'💸 Донат - 10 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=10&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'}) 
-	donate2=api.pyTelegramApi.getKeyboardBtn({'txt':'💸 Донат - 50 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=50&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'}) 
-	donate3=api.pyTelegramApi.getKeyboardBtn({'txt':'💸 Донат - 100 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=100&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'}) 
-	donate4=api.pyTelegramApi.getKeyboardBtn({'txt':'💸 Донат - 500 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=500&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'}) 
-	donate5=api.pyTelegramApi.getKeyboardBtn({'txt':'💸 Донат - 1000 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=1000&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'})
-	donate6=api.pyTelegramApi.getKeyboardBtn({'txt':'💸 Донат - 5000 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=5000&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'})
+	donate1=api.InlineKeyBoard.UXBtn({'txt':'💸 Донат - 10 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=10&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'}) 
+	donate2=api.InlineKeyBoard.UXBtn({'txt':'💸 Донат - 50 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=50&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'}) 
+	donate3=api.InlineKeyBoard.UXBtn({'txt':'💸 Донат - 100 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=100&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'}) 
+	donate4=api.InlineKeyBoard.UXBtn({'txt':'💸 Донат - 500 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=500&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'}) 
+	donate5=api.InlineKeyBoard.UXBtn({'txt':'💸 Донат - 1000 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=1000&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'})
+	donate6=api.InlineKeyBoard.UXBtn({'txt':'💸 Донат - 5000 руб','url':'https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Помочь автору&targets-hint=&default-sum=5000&button-text=11&payment-type-choice=on&mobile-payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410018314785030'})
 	#ячейки
-	item=api.pyTelegramApi.getKeyboardItem(donate1)
-	item1=api.pyTelegramApi.getKeyboardItem(donate2)
-	item2=api.pyTelegramApi.getKeyboardItem(donate3)
-	item3=api.pyTelegramApi.getKeyboardItem(donate4)
-	item4=api.pyTelegramApi.getKeyboardItem(donate5)
-	item5=api.pyTelegramApi.getKeyboardItem(donate6)
-	api.pyTelegramApi.keyboard(api,'Помощь автору :)',hbk+','+item+','+item1+','+item2+','+item3+','+item4+','+item5)
+	item=api.InlineKeyBoard.UXItem(donate1)
+	item1=api.InlineKeyBoard.UXItem(donate2)
+	item2=api.InlineKeyBoard.UXItem(donate3)
+	item3=api.InlineKeyBoard.UXItem(donate4)
+	item4=api.InlineKeyBoard.UXItem(donate5)
+	item5=api.InlineKeyBoard.UXItem(donate6)
+	api.InlineKeyBoard.keyboard(api,'Помощь автору :)',bhk+','+item+','+item1+','+item2+','+item3+','+item4+','+item5)
 
 def main():
-    api.pyTelegramApi.UpdateRedirect('main')
+    api.InlineKeyBoard.UpdateRedirect('main')
 	#Кнопки
-    img=api.pyTelegramApi.getKeyboardBtn({'txt':'🖼 Картинки','func':'img@'+__name__}) #Меню картинок
-    news=api.pyTelegramApi.getKeyboardBtn({'txt':'📰 Новости','func':'news@'+__name__}) #Меню новости
-    about=api.pyTelegramApi.getKeyboardBtn({'txt':'❇️ Доп описание','func':'system@'+__name__}) #Меню инфа
-    K=api.pyTelegramApi.getKeyboardBtn({'txt':'❌ Покончить','func':'kill@'+__name__}) #Покончить
-    donate=api.pyTelegramApi.getKeyboardBtn({'txt':'💰 Помочь автору','func':'donate@'+__name__})#Донат
+    img=api.InlineKeyBoard.UXBtn({'txt':'🖼 Картинки','func':'img@'+__name__}) #Меню картинок
+    news=api.InlineKeyBoard.UXBtn({'txt':'📰 Новости','func':'news@'+__name__}) #Меню новости
+    about=api.InlineKeyBoard.UXBtn({'txt':'❇️ Доп описание','func':'system@'+__name__}) #Меню инфа
+    K=api.InlineKeyBoard.UXBtn({'txt':'❌ Покончить','func':'kill@'+__name__}) #Покончить
+    donate=api.InlineKeyBoard.UXBtn({'txt':'💰 Помочь автору','func':'donate@'+__name__})#Донат
     #Ячейки
-    item=api.pyTelegramApi.getKeyboardItem(K)
-    item1=api.pyTelegramApi.getKeyboardItem(about)
-    item2=api.pyTelegramApi.getKeyboardItem(news)
-    item3=api.pyTelegramApi.getKeyboardItem(img)
-    item4=api.pyTelegramApi.getKeyboardItem(donate)
-    api.pyTelegramApi.keyboard(api,'Главное меню бота :)',item+','+item1+','+item2+','+item3+','+item4)
+    item=api.InlineKeyBoard.UXItem(K)
+    item1=api.InlineKeyBoard.UXItem(about)
+    item2=api.InlineKeyBoard.UXItem(news)
+    item3=api.InlineKeyBoard.UXItem(img)
+    item4=api.InlineKeyBoard.UXItem(donate)
+    api.InlineKeyBoard.keyboard(api,'Главное меню бота :)',item+','+item1+','+item2+','+item3+','+item4)
 
 def kill():
 	pass
