@@ -34,9 +34,8 @@ def system(): #Меню системные
 	chat_id=api.pyTelegramApi.getChatId(api)
 	#Навигация
 	bhk=api.InlineKeyBoard.getRedirect(__name__)
-	#Кнопки
 	#Ячейки
-	api.InlineKeyBoard.keyboard(api,"Дополнительная информация\nID => {0}".format(chat_id),bhk)
+	api.InlineKeyBoard.keyboard(api,"Дополнительная информация\nID => **{0}**".format(chat_id),bhk)
 
 def ixbt(): #Меню новости
 	api.InlineKeyBoard.UpdateRedirect('news')
