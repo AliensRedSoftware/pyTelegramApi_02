@@ -18,7 +18,7 @@ def getNew(): #Возвращаем новое
             api.pyTelegramApi.sendPhoto_ByUrl(api,IMG)
     if ARR:
         api.pyTelegramApi.sendMessage_array(api, ARR)
-    api.pyTelegramApi.sendSticker(api, 'CAACAgQAAx0CWAABe5cAAg3wXndV-fNtQb-htywOUuKERgVLwBAAAq0AAyg5Vw-IeDJbNkZythgE');
+    api.sticker.sendById(api, 'CAACAgQAAx0CWAABe5cAAg3wXndV-fNtQb-htywOUuKERgVLwBAAAq0AAyg5Vw-IeDJbNkZythgE');
 
 def getRandom(): #Возвращаем рандомное
 	print('test')

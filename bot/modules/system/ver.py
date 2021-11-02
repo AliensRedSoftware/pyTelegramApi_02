@@ -3,6 +3,7 @@
 import bot.classes.pyTelegramApi as api
 import bot.modules.fun.art2d as art2d
 import bot.modules.news.ixbt as newixbt
+import bot.modules.system.about as about
 
 def getNewIxbt():#Возвращаем новое новость
 	newixbt.getNew()
@@ -17,14 +18,40 @@ def SendChatId():#Отправка айди конфы
 
 def SendRandomWaifu2d():#Отправка рандомного картинки waifu2d
 	art2d.SendRandomWaifu2d()
-	img()
+	roomArt2d()
 
-def img():#Меню картинок
+def SendRandomWaifu2d5X():#Отправка рандомного картинки waifu2d 5X
+	art2d.SendRandomWaifu2d(5)
+	roomArt2d()
+
+def SendRandomWaifu2d10X():#Отправка рандомного картинки waifu2d 10X
+	art2d.SendRandomWaifu2d(10)
+	roomArt2d()
+
+def roomArt2d():
+	api.InlineKeyBoard.UpdateRedirect('img2d')
+	#Навигация
+	bhk=api.InlineKeyBoard.getRedirect(__name__)
+	#Кнопки
+	X1=api.InlineKeyBoard.UXBtn({'txt':'1','func':'SendRandomWaifu2d@'+__name__}) #Кнопка
+	X2=api.InlineKeyBoard.UXBtn({'txt':'5','func':'SendRandomWaifu2d5X@'+__name__}) #Кнопка
+	X3=api.InlineKeyBoard.UXBtn({'txt':'10','func':'SendRandomWaifu2d10X@'+__name__}) #Кнопка
+	#Ячейки
+	item1=api.InlineKeyBoard.UXItem(X1)
+	item2=api.InlineKeyBoard.UXItem(X2)
+	item3=api.InlineKeyBoard.UXItem(X3)
+	api.InlineKeyBoard.keyboard(api,'Кол-во отправок картинок',bhk+','+item1+','+item2+','+item3)
+
+def getModules():
+	about.main()
+	system()
+
+def img2d():#Меню картинок
 	api.InlineKeyBoard.UpdateRedirect('main')
 	#Навигация
 	bhk=api.InlineKeyBoard.getRedirect(__name__)
 	#Кнопки
-	ava=api.InlineKeyBoard.UXBtn({'txt':'Арт 2д рандомный','func':'SendRandomWaifu2d@'+__name__}) #Кнопка
+	ava=api.InlineKeyBoard.UXBtn({'txt':'Арт 2д рандомный','func':'roomArt2d@'+__name__}) #Кнопка
 	#Ячейки
 	item3=api.InlineKeyBoard.UXItem(ava)
 	api.InlineKeyBoard.keyboard(api,'Меню картинок :)',bhk+','+item3)
@@ -34,7 +61,6 @@ def system(): #Меню системные
 	chat_id=api.pyTelegramApi.getChatId(api)
 	#Навигация
 	bhk=api.InlineKeyBoard.getRedirect(__name__)
-	#Кнопки
 	#Ячейки
 	api.InlineKeyBoard.keyboard(api,"Дополнительная информация\nID => {0}".format(chat_id),bhk)
 
@@ -95,7 +121,7 @@ def donateYandex(): #меню донат
 def main():
     api.InlineKeyBoard.UpdateRedirect('main')
 	#Кнопки
-    img=api.InlineKeyBoard.UXBtn({'txt':'🖼 Картинки','func':'img@'+__name__}) #Меню картинок
+    img=api.InlineKeyBoard.UXBtn({'txt':'🖼 Картинки','func':'img2d@'+__name__}) #Меню картинок
     news=api.InlineKeyBoard.UXBtn({'txt':'📰 Новости','func':'news@'+__name__}) #Меню новости
     about=api.InlineKeyBoard.UXBtn({'txt':'❇️ Доп описание','func':'system@'+__name__}) #Меню инфа
     K=api.InlineKeyBoard.UXBtn({'txt':'❌ Покончить','func':'kill@'+__name__}) #Покончить

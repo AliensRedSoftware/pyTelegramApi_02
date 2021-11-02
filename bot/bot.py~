@@ -8,9 +8,7 @@ def main(token):
 	api.pyTelegramApi.addcommand('str', 'str.str')
 	api.pyTelegramApi.addcommand('getStickerId', 'sticker.sticker')
 	api.pyTelegramApi.addcommand('sendSticker', 'sticker.sendSticker')
-	api.pyTelegramApi.addcommand('sendStickerById', 'sticker.sendStickerById')
 	api.pyTelegramApi.addcommand('art2d', 'fun.art2d')
-	api.pyTelegramApi.addcommand('about', 'system.about')
 	#Меню
 	api.pyTelegramApi.addcommand('start', 'system.ver')
 	api.pyTelegramApi.addcommand('menu', 'system.ver')

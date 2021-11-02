@@ -1,5 +1,5 @@
 import bot.classes.pyTelegramApi as api
 
 def main():
-	api.sticker.send(api)
+	api.sticker.sendById(api, api.sticker.id)
 
