@@ -1,15 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import urllib3
 import certifi
 import importlib
 import json
-import os
 import sys
 import requests
 import _thread
-import random
-from urllib3.util import Retry
 
 class InlineKeyBoard:
 	Redirect=False #Редирект
@@ -144,53 +141,55 @@ class pyTelegramApi:
 			except:
 				pass
 	def getUpdates(token):#Бесконечный цикл
-		sys.setrecursionlimit(10**9) #Кол-во запросов
-		json_response = pyTelegramApi.request(token, 'getUpdates', {'offset' : -1})
 		try:
-			chatid = json_response['result'][0]['message']['chat']['id']
-		except:
+			json_response = pyTelegramApi.request(token, 'getUpdates', {'offset' : -1})
 			try:
-				if	msg.id != json_response['result'][0]['callback_query']['message']['message_id']:
-					json_response['result'][0]['callback_query']['data']
-					chatid = json_response['result'][0]['callback_query']['message']['chat']['id']
-					message_id = json_response['result'][0]['callback_query']['message']['message_id']
-					func=json_response['result'][0]['callback_query']['data']
-					execute=func.split('@')[0]
-					func=func.split('@')[1]
-					func=getattr(importlib.import_module(func), execute)
-					pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : chatid, 'message_id' : message_id})
-					func()
+				chatid = json_response['result'][0]['message']['chat']['id']
 			except:
-				pass
-			#Нюхаем значение для быстрого хода (HACK)
-			if	json_response['result']:
-				pyTelegramApi.sniffer(json_response)
-			pyTelegramApi.getUpdates(token)
-		if	msg.id != json_response['result'][0]['message']['message_id']:
-			for	txt in json_response['result'][0]['message']:
-				if	txt == 'text':
-					txt = json_response['result'][0]['message']['text']
-					try:
-						chatid = json_response['result'][0]['message']['chat']['id']
-						message_id = json_response['result'][0]['message']['message_id']
-					except:
+				try:
+					if	msg.id != json_response['result'][0]['callback_query']['message']['message_id']:
+						json_response['result'][0]['callback_query']['data']
 						chatid = json_response['result'][0]['callback_query']['message']['chat']['id']
 						message_id = json_response['result'][0]['callback_query']['message']['message_id']
-					for str in pyTelegramApi.getlist():
-						module = str.split('=')[1]
-						command = str.split('=')[0]
-						txt_gen = txt.split('@')
-						if	command == txt_gen[0]:
-							pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : chatid, 'message_id' : message_id})
-							print('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
-							importlib.import_module('bot.modules.' + module).main()
-						elif command == txt.split(' ')[0]:
-							pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : chatid, 'message_id' : message_id})
-							print('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
-							importlib.import_module('bot.modules.' + module).main()
-					#Нюхаем значение для быстрого хода (HACK)
+						func=json_response['result'][0]['callback_query']['data']
+						execute=func.split('@')[0]
+						func=func.split('@')[1]
+						func=getattr(importlib.import_module(func), execute)
+						pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : chatid, 'message_id' : message_id})
+						func()
+				except:
+					pass
+				#Нюхаем значение для быстрого хода (HACK)
+				if	json_response['result']:
 					pyTelegramApi.sniffer(json_response)
-					pyTelegramApi.getUpdates(token)
-		#Нюхаем значение для быстрого хода (HACK)
-		pyTelegramApi.sniffer(json_response)
+				pyTelegramApi.getUpdates(token)
+			if	msg.id != json_response['result'][0]['message']['message_id']:
+				for	txt in json_response['result'][0]['message']:
+					if	txt == 'text':
+						txt = json_response['result'][0]['message']['text']
+						try:
+							chatid = json_response['result'][0]['message']['chat']['id']
+							message_id = json_response['result'][0]['message']['message_id']
+						except:
+							chatid = json_response['result'][0]['callback_query']['message']['chat']['id']
+							message_id = json_response['result'][0]['callback_query']['message']['message_id']
+						for str in pyTelegramApi.getlist():
+							module = str.split('=')[1]
+							command = str.split('=')[0]
+							txt_gen = txt.split('@')
+							if	command == txt_gen[0]:
+								pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : chatid, 'message_id' : message_id})
+								print('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
+								importlib.import_module('bot.modules.' + module).main()
+							elif command == txt.split(' ')[0]:
+								pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : chatid, 'message_id' : message_id})
+								print('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
+								importlib.import_module('bot.modules.' + module).main()
+						#Нюхаем значение для быстрого хода (HACK)
+						pyTelegramApi.sniffer(json_response)
+						pyTelegramApi.getUpdates(token)
+			#Нюхаем значение для быстрого хода (HACK)
+			pyTelegramApi.sniffer(json_response)
+		except:
+			pass
 		pyTelegramApi.getUpdates(token)
