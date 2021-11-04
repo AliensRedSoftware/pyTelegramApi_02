@@ -1,7 +1,7 @@
-import bot.classes.pyTelegramApi as api
+import bots.unpackbot.classes.pyTelegramApi as api
+import time
 
 def main(token):
-	print(api.msg.id)
 	api.pyTelegramApi.setToken(api, token) #Установка токена
 	api.pyTelegramApi.prefix = '$' #Установка префикса
 	#Команды
@@ -17,4 +17,5 @@ def main(token):
 	api.pyTelegramApi.addcommand('help', 'system.ver')
 	#Парсинг новостей
 	api.pyTelegramApi.addcommand('ixbt' , 'news.ixbt')
-	api.pyTelegramApi.getUpdates(api.pyTelegramApi.getToken(api))
+	#Start proccess threads...
+	api.pyTelegramApi.getUpdatesThreads(api.pyTelegramApi.getToken(api))
