@@ -4,8 +4,6 @@ import importlib
 token=''
 listcommand=[] #Лист комманд
 prefix='/' #Префикс
-message_ids=[]
-active=[]
 
 def main(name, token):
 	api.pyTelegramApi.setToken(name, token) #Установка токена

@@ -50,10 +50,6 @@ class InlineKeyBoard:
 
 class pyTelegramApi:
 
-	message_ids=[]
-
-	active=[]
-
 	bots=[]
 
 	def setToken(name, token): #Установка токена
@@ -110,7 +106,9 @@ class pyTelegramApi:
 		pyTelegramApi.request(bot.token, 'sendMessage', {'chat_id' : chatid, 'text' : txt})
 
 	def sendMessage(txt = 'Привет', cfg=False): #отправить сообщение без chatid
-		token=pyTelegramApi.getBot(cfg.bot.name)
+		if	cfg == False:
+			cfg=pyTelegramApi.getCfgThread()
+		bot=pyTelegramApi.getBot(cfg.bot.name)
 		pyTelegramApi.request(bot.token, 'sendMessage', {'chat_id' : cfg.room.id, 'text' : txt})
 
 	def sendPhotoId_ByUrl(self, PhotoUrl, chatid): #Отправка фото по url адресу
@@ -189,89 +187,125 @@ class pyTelegramApi:
 	def getModuleCfgThread(name, config): # Return Module CFG thread...
 		return importlib.import_module('bots.' + name + '.threads.' + config)
 
-	def isUseThread(json_response):
+	def isUseThread(bot, json_response):
 		try:
 			ID=json_response['result'][0]['callback_query']['message']['from']['id']
 		except:
 			ID=json_response['result'][0]['message']['from']['id']
-		for active in pyTelegramApi.active:
+		for active in bot.active:
 			if	active == ID:
 				return True
 		return False
 
-	def getCfgThread(name):
-		for thread in os.scandir(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'threads'):
-			config=os.path.splitext(os.path.basename(thread.name))[0]
-			cfg=pyTelegramApi.getModuleCfgThread(name, config)
-			thread=cfg.THREAD
-			if	_thread.get_ident() == thread:
-				return pyTelegramApi.getModuleCfgThread(name, config)
+	def getCfgThread():
+		for bot in os.scandir(os.getcwd() + os.sep + 'bots'):
+			for thread in os.scandir(os.getcwd() + os.sep + 'bots' + os.sep + bot.name + os.sep + 'threads'):
+				config=os.path.splitext(os.path.basename(thread.name))[0]
+				cfg=pyTelegramApi.getModuleCfgThread(bot.name, config)
+				thread=cfg.THREAD
+				if	_thread.get_ident() == thread:
+					return cfg
 		return False
 
-	def DestroyUseThread(ID):
+	def DestroyUseThread(bot, ID):
 		list=[]
-		for active in pyTelegramApi.active:
+		for active in bot.active:
 			if	active != ID:
 				list+=active
-		pyTelegramApi.active=list
+		bot.active=list
 
 	def clearCache(name, config):
-		os.remove(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'threads' + os.sep + config + '.py')
-		os.remove(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'threads' + os.sep + '__pycache__' + os.sep + config + '.cpython-38.pyc')
-
-	def getUpdates(name, config):#Бесконечный цикл
-		cfg=pyTelegramApi.getModuleCfgThread(name, config)
-		cfg.THREAD=_thread.get_ident()
-		token=pyTelegramApi.getToken(name)
 		try:
+			os.remove(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'threads' + os.sep + config + '.py')
+			os.remove(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'threads' + os.sep + '__pycache__' + os.sep + config + '.cpython-38.pyc')
+		except:
+			pass
+	def getNameModule(name, json_response):
+		try:
+			json_response['result'][0]['callback_query']['data']
+			func=json_response['result'][0]['callback_query']['data']
+			module=func.split('@')[0]
+			func=func.split('@')[1]
+			return module
+		except:
+			try:
+				txt = json_response['result'][0]['message']['text']
+				for str in pyTelegramApi.getlist(name):
+					module = str.split('=')[1]
+					command = str.split('=')[0]
+					txt_gen = txt.split('@')
+					if	command == txt_gen[0]:
+						return module
+					elif command == txt.split(' ')[0]:
+						return module
+			except:
+				pass
+		return False
+	def getUpdates(name, config):#Бесконечный цикл
+		try:
+			cfg=pyTelegramApi.getModuleCfgThread(name, config)
+			cfg.THREAD=_thread.get_ident()
+			cfg.bot.name=name
+			token=pyTelegramApi.getToken(name)
 			json_response = pyTelegramApi.request(token, 'getUpdates', {'offset' : -1})
-			for	id in pyTelegramApi.message_ids:
+			pyTelegramApi.sniffer(cfg, json_response)
+			cfg=pyTelegramApi.getModuleCfgThread(name, config)
+			bot=pyTelegramApi.getBot(name)
+			for	id in bot.message_ids:
 				if	id == json_response['result'][0]['message']['message_id']:
-					return _thread.exit()
-			if	pyTelegramApi.isUseThread(json_response):
+					_thread.exit()
+			if	pyTelegramApi.isUseThread(bot, json_response):
 				try:
-					chatid=json_response['result'][0]['message']['chat']['id']
-				except:
 					chatid=json_response['result'][0]['callback_query']['message']['chat']['id']
+					pyTelegramApi.message_ids.append(json_response['result'][0]['callback_query']['message']['message_id'])
+				except:
+					chatid=json_response['result'][0]['message']['chat']['id']
+					bot.message_ids.append(json_response['result'][0]['message']['message_id'])
+				if	pyTelegramApi.getNameModule(name, json_response):
+					pyTelegramApi.sendMessage('Пожалуйста ожидайте завершение прошлого сеанса', cfg)
 				pyTelegramApi.clearCache(name, config)
-				return _thread.exit()
+				_thread.exit()
 			else:
 				push=True
 				try:
 					ID=json_response['result'][0]['callback_query']['message']['from']['id']
 				except:
 					ID=json_response['result'][0]['message']['from']['id']
-				for active in pyTelegramApi.active:
+				for active in bot.active:
 					if	active == ID:
 						push=False
 				if	push:
-					pyTelegramApi.active+=[ID]
-			pyTelegramApi.sniffer(pyTelegramApi.getModuleCfgThread(name, config), json_response)
-			cfg=pyTelegramApi.getModuleCfgThread(name, config)
+					bot.active+=[ID]
 			try:
 				chatid = json_response['result'][0]['message']['chat']['id']
 			except:
 				try:
-					if	pyTelegramApi.message_ids != json_response['result'][0]['callback_query']['message']['message_id']:
-						json_response['result'][0]['callback_query']['data']
-						chatid = json_response['result'][0]['callback_query']['message']['chat']['id']
-						message_id = json_response['result'][0]['callback_query']['message']['message_id']
-						func=json_response['result'][0]['callback_query']['data']
-						module=func.split('@')[0]
-						func=func.split('@')[1]
-						try:
-							func=getattr(importlib.import_module(func), module)
-							pyTelegramApi.sniffer(cfg, json_response)
-							pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : chatid, 'message_id' : message_id})
-							pyTelegramApi.message_ids.append(json_response['result'][0]['callback_query']['message']['message_id'])
-							func()
-						finally:
-							print('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
+					json_response['result'][0]['callback_query']['data']
+					for	id in pyTelegramApi.message_ids:
+						if	id == json_response['result'][0]['callback_query']['message']['message_id']:
+							_thread.exit()
+					chatid = json_response['result'][0]['callback_query']['message']['chat']['id']
+					message_id = json_response['result'][0]['callback_query']['message']['message_id']
+					func=json_response['result'][0]['callback_query']['data']
+					module=func.split('@')[0]
+					func=func.split('@')[1]
+					try:
+						func=getattr(importlib.import_module(func), module)
+						pyTelegramApi.sniffer(cfg, json_response)
+						pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : chatid, 'message_id' : message_id})
+						bot.message_ids.append(json_response['result'][0]['callback_query']['message']['message_id'])
+						func()
+					except:
+						pass
+					finally:
+						print('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
 				except:
 					pass
 				if	json_response['result']:
 					pyTelegramApi.message_ids.append(json_response['result'][0]['message']['message_id'])
-				return _thread.exit()
+				pyTelegramApi.clearCache(name, config)
+				pyTelegramApi.DestroyUseThread(bot, ID)
+				_thread.exit()
 			for	txt in json_response['result'][0]['message']:
 				if	txt == 'text':
 					txt = json_response['result'][0]['message']['text']
@@ -291,29 +325,34 @@ class pyTelegramApi:
 								pyTelegramApi.sniffer(cfg, json_response)
 								pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : chatid, 'message_id' : message_id})
 								importlib.import_module('bots.' + name + '.modules.' + module).main(name, cfg)
+							except:
+								pass
 							finally:
 								try:
 									importlib.import_module('bots.' + name + '.modules.' + module).exit(name, cfg)
 								finally:
-									pyTelegramApi.message_ids.append(json_response['result'][0]['message']['message_id'])
-									pyTelegramApi.clearCache(name, config)
-									pyTelegramApi.DestroyUseThread(ID)
-									print('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
+									bot.message_ids.append(json_response['result'][0]['message']['message_id'])
+									print("[THREAD] [{0}] [PROCCESS] => SUCCESS!...".format(cfg.THREAD))
 						elif command == txt.split(' ')[0]:
 							try:
 								print("[THREAD] [{0}] [PROCCESS] => CLONE...".format(cfg.THREAD))
 								pyTelegramApi.sniffer(cfg, json_response)
 								pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : chatid, 'message_id' : message_id})
 								importlib.import_module('bots.' + name + '.modules.' + module).main(name, cfg)
+							except:
+								pass
 							finally:
 								try:
 									importlib.import_module('bots.' + name + '.modules.' + module).exit(name, cfg)
+								except:
+									pass
 								finally:
-									pyTelegramApi.message_ids.append(json_response['result'][0]['message']['message_id'])
-									pyTelegramApi.clearCache(name, config)
-									pyTelegramApi.DestroyUseThread(ID)
-									print('[Успешно :)] [user] [Модуль выполнен => {0}]'.format(module))
-					return _thread.exit()
+									bot.message_ids.append(json_response['result'][0]['message']['message_id'])
+									print("[THREAD] [{0}] [PROCCESS] => SUCCESS!...".format(cfg.THREAD))
+					pyTelegramApi.clearCache(name, config)
+					pyTelegramApi.DestroyUseThread(bot, ID)
+					_thread.exit()
 		except:
 			pass
-		return _thread.exit()
+		pyTelegramApi.clearCache(name, config)
+		_thread.exit()
