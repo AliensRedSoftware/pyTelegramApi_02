@@ -6,3 +6,6 @@
 + Использование мультипотоки для каждого сообщение
 + Использование в (группа / личные сообщение)
 + Ожидание обработки мультипотока
+
+# Скриншоты
+[![screenshot(threads).png](https://i.postimg.cc/VLCqTx20/screenshot.jpg)](https://postimg.cc/w79RRGq9)
