@@ -1,5 +1,4 @@
 import classes.pyTelegramApi as api
-import importlib
 
 token=''
 listcommand=[] #Лист комманд
@@ -24,4 +23,5 @@ def main(name, token):
 	#Парсинг новостей
 	#api.pyTelegramApi.addcommand(name, 'ixbt', 'news.ixbt')
 	#Start proccess threads...
+	api.pyTelegramApi.InitThread(name)
 	api.pyTelegramApi.getUpdatesThreads(name)

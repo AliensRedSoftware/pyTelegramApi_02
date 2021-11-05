@@ -1,13 +1,9 @@
 import os
 import _thread
-import faulthandler
-import sys
+import time
 import importlib
 
-
 def connect(name, token):
-    faulthandler.enable()
-    sys.setrecursionlimit(10**9) #Кол-во запросов
     print("[THREAD] [CONNECT] [@{0}] => WAIT...".format(name))
     importlib.import_module('bots.'+ name + '.bot').main(name, token)
 

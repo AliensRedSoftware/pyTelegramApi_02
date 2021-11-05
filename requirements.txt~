@@ -1,9 +1,0 @@
-urllib3
-certifi
-json
-sys
-requests
-time
-uuid
-os
-pathlib
