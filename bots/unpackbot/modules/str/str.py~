@@ -1,4 +1,8 @@
-import bot.classes.pyTelegramApi as api
+import classes.pyTelegramApi as api
+import time
 
-def main():
-	api.pyTelegramApi.sendMessage(api, "Привет")
+def main(cfg):
+	api.msg.sendMessage('Привет :)')
+
+def exit(cfg):
+	pass

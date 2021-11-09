@@ -17,11 +17,11 @@ def main(name, token):
 	#api.pyTelegramApi.addcommand(name, 'art2d', 'fun.art2d')
 	#api.pyTelegramApi.addcommand(name, 'about', 'system.about')
 	#Меню
-	#api.pyTelegramApi.addcommand(name, 'start', 'system.ver')
-	#api.pyTelegramApi.addcommand(name, 'menu', 'system.ver')
-	#api.pyTelegramApi.addcommand(name, 'help', 'system.ver')
+	#api.pyTelegramApi.addcommand(name, 'start', 'system.menu')
+	#api.pyTelegramApi.addcommand(name, 'menu', 'system.menu')
+	#api.pyTelegramApi.addcommand(name, 'help', 'system.menu')
 	#Парсинг новостей
 	#api.pyTelegramApi.addcommand(name, 'ixbt', 'news.ixbt')
 	#Start proccess threads...
 	api.pyTelegramApi.InitThread(name)
-	api.pyTelegramApi.getUpdatesThreads(name)
+	api.pyTelegramApi.thread(name)

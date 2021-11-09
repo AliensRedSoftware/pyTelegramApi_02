@@ -2,6 +2,9 @@
 
 THREAD=False
 
+class InlineKeyBoard:
+	active=False
+
 class bot:
 	name='undefined'
 
@@ -13,10 +16,13 @@ class sticker:
 	def send(self):
 		chatid = pyTelegramApi.getChatId(self)
 		pyTelegramApi.request(pyTelegramApi.getToken(self), 'sendSticker', {'chat_id' : chatid, 'sticker' : sticker.id})
+
 class msg:
 	id=0
 	message_id_old=0
+
 class room:
 	id=0
+
 class user:
 	id=0

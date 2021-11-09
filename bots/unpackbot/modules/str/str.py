@@ -1,7 +1,9 @@
 import classes.pyTelegramApi as api
+import time
 
 def main(cfg):
-	api.msg.sendMessage('Привет :)', cfg)
+	time.sleep(50)
+	api.msg.sendMessage('Привет :)')
 
 def exit(cfg):
 	pass

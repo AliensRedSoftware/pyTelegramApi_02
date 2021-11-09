@@ -24,4 +24,4 @@ def main(name, token):
 	#api.pyTelegramApi.addcommand(name, 'ixbt', 'news.ixbt')
 	#Start proccess threads...
 	api.pyTelegramApi.InitThread(name)
-	api.pyTelegramApi.getUpdatesThreads(name)
+	api.pyTelegramApi.thread(name)

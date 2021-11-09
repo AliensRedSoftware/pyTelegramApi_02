@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import bot.classes.pyTelegramApi as api
+import classes.pyTelegramApi as api
 import bot.modules.fun.art2d as art2d
 import bot.modules.news.ixbt as newixbt
 import bot.modules.system.about as about
@@ -118,7 +118,7 @@ def donateYandex(): #меню донат
 	item5=api.InlineKeyBoard.UXItem(donate6)
 	api.InlineKeyBoard.keyboard(api,'Помощь автору :)',bhk+','+item+','+item1+','+item2+','+item3+','+item4+','+item5)
 
-def main():
+def main(cfg):
     api.InlineKeyBoard.UpdateRedirect('main')
 	#Кнопки
     img=api.InlineKeyBoard.UXBtn({'txt':'🖼 Картинки','func':'img2d@'+__name__}) #Меню картинок
@@ -135,4 +135,7 @@ def main():
     api.InlineKeyBoard.keyboard(api,'Главное меню бота :)',item+','+item1+','+item2+','+item3+','+item4)
 
 def kill():
+	pass
+
+def exit(cfg):
 	pass
