@@ -360,7 +360,7 @@ class pyTelegramApi:
 		bot=pyTelegramApi.getBot(name)
 		user=pyTelegramApi.getUserId(json_response)
 		try:
-			bot.cfg[user].THREAD=_thread.get_ident()
+			#bot.cfg[user].THREAD=_thread.get_ident()
 			cfg=bot.cfg[user]
 			#bot.cfg[cfg.user.id]=cfg
 		except:
