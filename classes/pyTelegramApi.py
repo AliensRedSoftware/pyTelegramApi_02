@@ -246,13 +246,6 @@ class pyTelegramApi:
 				return bot.cfg[user]
 		return False
 
-	def DestroyUseThread(bot, ID):
-		list=[]
-		for active in bot.active:
-			if	active != ID:
-				list+=active
-		bot.active=list
-
 	def deleteCfg(name, config):
 		try:
 			os.remove(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'threads' + os.sep + config + '.py')
