@@ -207,6 +207,7 @@ class pyTelegramApi:
 					pass
 			except:
 				pass
+		return cfg
 
 	def newCfgThread(name):
 		try:
@@ -227,9 +228,6 @@ class pyTelegramApi:
 			pyTelegramApi.bots[thread]=name
 		except:
 			pass
-
-	def getModuleCfgThread(name, config): # Return Module CFG thread...
-		return importlib.import_module('bots.' + name + '.threads.' + config)
 
 	def isUseThread(bot, json_response):
 		try:
@@ -343,7 +341,7 @@ class pyTelegramApi:
 		token=pyTelegramApi.getToken(name)
 		try:
 			json_response = pyTelegramApi.request(token, 'getUpdates', {'offset' : -1})
-			pyTelegramApi.thread(name) # new start thread...
+			#pyTelegramApi.thread(name) # new start thread...
 		except:
 			pass
 		bot=pyTelegramApi.getBot(name)
@@ -351,17 +349,27 @@ class pyTelegramApi:
 		try:
 			#bot.cfg[user].THREAD=_thread.get_ident()
 			cfg=bot.cfg[user]
-			#bot.cfg[cfg.user.id]=cfg
+			#данные сообщение
+			cfg=pyTelegramApi.sniffer(cfg, json_response)
+			#cfg.THREAD=_thread.get_ident()
+			#bot
+			cfg.name=name
+			#bot cfg
+			cfg.opt.name=config
+			bot.cfg[user]=cfg
 		except:
 			config=pyTelegramApi.newCfgThread(name)
-			cfg=pyTelegramApi.getModuleCfgThread(name, config)
-			cfg.opt.name=config
+			cfg=importlib.import_module('bots.' + name + '.threads.' + config)
+			#данные сообщение
+			cfg=pyTelegramApi.sniffer(cfg, json_response)
 			cfg.THREAD=_thread.get_ident()
+			#bot
 			cfg.name=name
-			pyTelegramApi.sniffer(cfg, json_response)
-			cfg=pyTelegramApi.getModuleCfgThread(name, config)
+			#bot cfg
+			cfg.opt.name=config
 			bot.cfg[cfg.user.id]=cfg
 			pyTelegramApi.deleteCfg(name, cfg.opt.name)
+			exec=False
 		try:
 			json_response['result'][0]['callback_query']['data']
 			#cfgThread=InlineKeyBoard.getCfgThread(name, json_response)
