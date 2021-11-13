@@ -399,7 +399,7 @@ class pyTelegramApi:
 				return _thread.exit()
 			else:
 				print("[THREAD] [{0}] [@{1}] [POOL] [PROCCESS] => CLONE...".format(cfg.THREAD, name))
-				importlib.import_module('bots.' + name + '.behavior.').pool(cfg)
+				importlib.import_module('bots.' + name + '.behavior').pool(cfg)
 				print("[THREAD] [{0}] [@{1}] [POOL] [PROCCESS] => SUCCESS!...".format(cfg.THREAD, name))
 				
 				for	txt in json_response['result'][0]['message']:
