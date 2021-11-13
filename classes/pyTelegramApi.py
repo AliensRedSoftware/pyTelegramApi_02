@@ -360,7 +360,7 @@ class pyTelegramApi:
 		bot=pyTelegramApi.getBot(name)
 		user=pyTelegramApi.getUserId(json_response)
 		try:
-			#bot.cfg[user].THREAD=_thread.get_ident()
+			bot.cfg[user].THREAD=_thread.get_ident()
 			cfg=bot.cfg[user]
 			#bot.cfg[cfg.user.id]=cfg
 		except:
@@ -395,7 +395,7 @@ class pyTelegramApi:
 			if	cfg.THREAD != _thread.get_ident() and user == cfg.user.id:
 				bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
 				if	pyTelegramApi.getNameModule(name, json_response):
-					msg.sendMessage('Пожалуйста ожидайте завершение прошлого сеанса')
+					msg.sendMessage('Пожалуйста ожидайте завершение прошлого сеанса', cfg)
 				return _thread.exit()
 			else:
 				#bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
