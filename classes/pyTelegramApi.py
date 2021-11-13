@@ -303,7 +303,8 @@ class pyTelegramApi:
 				pass
 		return False
 
-	def isIgnoreThread(bot, json_response):
+	def isIgnoreMsg(json_response):
+		bot=pyTelegramApi.getBot()
 		for	id in bot.message_ids:
 			try:
 				json_response['result'][0]['message']['message_id']
@@ -378,11 +379,11 @@ class pyTelegramApi:
 			else:
 				msg.sendMessage('Ошибка использование меню пожалуйста перезапустите меню...', cfg)
 		except:
-			if	pyTelegramApi.isIgnoreThread(bot, json_response):
+			if	pyTelegramApi.isIgnoreMsg(json_response):
 				return _thread.exit()
 			if	cfg.THREAD != _thread.get_ident() and user == cfg.user.id:
-				#bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
 				if	pyTelegramApi.getNameModule(name, json_response):
+					bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
 					msg.sendMessage('Пожалуйста ожидайте завершение прошлого сеанса', cfg)
 				return _thread.exit()
 			else:
