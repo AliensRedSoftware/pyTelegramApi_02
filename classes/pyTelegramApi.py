@@ -350,6 +350,7 @@ class pyTelegramApi:
 				pass
 		return 'undefined'
 
+
 	def getUpdates(name):#Бесконечный цикл
 		token=pyTelegramApi.getToken(name)
 		try:
@@ -393,15 +394,18 @@ class pyTelegramApi:
 			if	pyTelegramApi.isIgnoreThread(bot, json_response):
 				return _thread.exit()
 			if	cfg.THREAD != _thread.get_ident() and user == cfg.user.id:
-				bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
+				#bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
 				if	pyTelegramApi.getNameModule(name, json_response):
 					msg.sendMessage('Пожалуйста ожидайте завершение прошлого сеанса', cfg)
 				return _thread.exit()
 			else:
-				print("[THREAD] [{0}] [@{1}] [POOL] [PROCCESS] => CLONE...".format(cfg.THREAD, name))
-				importlib.import_module('bots.' + name + '.behavior').pool(cfg)
-				print("[THREAD] [{0}] [@{1}] [POOL] [PROCCESS] => SUCCESS!...".format(cfg.THREAD, name))
-				
+				try:
+					print("[THREAD] [{0}] [@{1}] [POOL] [PROCCESS] => CLONE...".format(cfg.THREAD, name))
+					importlib.import_module('bots.' + name + '.behavior').pool(cfg)
+					bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
+					print("[THREAD] [{0}] [@{1}] [POOL] [PROCCESS] => SUCCESS!...".format(cfg.THREAD, name))
+				except:
+					pass
 				for	txt in json_response['result'][0]['message']:
 					try:
 						json_response['result'][0]['message']['text']
