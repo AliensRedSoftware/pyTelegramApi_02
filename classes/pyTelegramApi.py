@@ -338,19 +338,6 @@ class pyTelegramApi:
 			return json_response['result'][0]['message']['message_id']
 		return False
 
-	def getTypeQuery():
-		try:
-			json_response['result'][0]['callback_query']['message']['chat']['id']
-			return 'InlineKeyBoard'
-		except:
-			try:
-				json_response['result'][0]['message']['text']
-				return 'msg'
-			except:
-				pass
-		return 'undefined'
-
-
 	def getUpdates(name):#Бесконечный цикл
 		token=pyTelegramApi.getToken(name)
 		try:
