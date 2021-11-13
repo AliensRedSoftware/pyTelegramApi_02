@@ -398,7 +398,10 @@ class pyTelegramApi:
 					msg.sendMessage('Пожалуйста ожидайте завершение прошлого сеанса', cfg)
 				return _thread.exit()
 			else:
-				#bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
+				print("[THREAD] [{0}] [@{1}] [POOL] [PROCCESS] => CLONE...".format(cfg.THREAD, name))
+				importlib.import_module('bots.' + name + '.modules.' + module).pool(cfg)
+				print("[THREAD] [{0}] [@{1}] [POOL] [PROCCESS] => SUCCESS!...".format(cfg.THREAD, name))
+				
 				for	txt in json_response['result'][0]['message']:
 					try:
 						json_response['result'][0]['message']['text']
@@ -441,10 +444,8 @@ class pyTelegramApi:
 										pass
 					except:
 						pass
-		
 		if	cfg.InlineKeyBoard.active == False:
 			bot.cfg.pop(user)
 			pyTelegramApi.bots.pop(_thread.get_ident())
-		print(pyTelegramApi.bots)
 		return _thread.exit()
 

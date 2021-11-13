@@ -2,7 +2,7 @@ import classes.pyTelegramApi as api
 import time
 
 def pool(cfg):
-	pass
+	print('t')
 
 def main(cfg):
 	time.sleep(50)
