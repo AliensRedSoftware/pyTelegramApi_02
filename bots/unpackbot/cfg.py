@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
 THREAD=False
+name='undefined'
+
+class opt:
+	name='undefined'
 
 class InlineKeyBoard:
 	active=False
-
-class bot:
-	name='undefined'
 
 class sticker:
 	id=0

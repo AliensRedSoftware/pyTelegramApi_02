@@ -5,6 +5,7 @@ listcommand=[] #Лист комманд
 prefix='/' #Префикс
 message_ids=[]
 active=[]
+cfg={} # cfg threads...
 
 def main(name, token):
 	api.pyTelegramApi.setToken(name, token) #Установка токена
@@ -17,9 +18,9 @@ def main(name, token):
 	#api.pyTelegramApi.addcommand(name, 'art2d', 'fun.art2d')
 	#api.pyTelegramApi.addcommand(name, 'about', 'system.about')
 	#Меню
-	#api.pyTelegramApi.addcommand(name, 'start', 'system.menu')
-	#api.pyTelegramApi.addcommand(name, 'menu', 'system.menu')
-	#api.pyTelegramApi.addcommand(name, 'help', 'system.menu')
+	api.pyTelegramApi.addcommand(name, 'start', 'system.menu')
+	api.pyTelegramApi.addcommand(name, 'menu', 'system.menu')
+	api.pyTelegramApi.addcommand(name, 'help', 'system.menu')
 	#Парсинг новостей
 	#api.pyTelegramApi.addcommand(name, 'ixbt', 'news.ixbt')
 	#Start proccess threads...

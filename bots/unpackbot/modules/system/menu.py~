@@ -3,6 +3,7 @@
 import classes.pyTelegramApi as api
 
 def main(cfg):
+    time.sleep(500)
     api.InlineKeyBoard.UpdateRedirect('main')
 	#Кнопки
     img=api.InlineKeyBoard.UXBtn({'txt':'🖼 Картинки','func':'img2d@'+__name__}) #Меню картинок
