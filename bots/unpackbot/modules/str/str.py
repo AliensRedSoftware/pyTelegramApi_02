@@ -5,5 +5,3 @@ def main(cfg):
 	time.sleep(50)
 	api.msg.sendMessage('Привет :)')
 
-def exit(cfg):
-	pass

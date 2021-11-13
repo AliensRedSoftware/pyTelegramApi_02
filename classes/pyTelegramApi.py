@@ -411,12 +411,6 @@ class pyTelegramApi:
 										pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : cfg.room.id, 'message_id' : cfg.msg.id})
 										importlib.import_module('bots.' + name + '.modules.' + module).main(cfg)
 										print("[THREAD] [{0}] [@{1}] [{2}] [MAIN] [PROCCESS] => SUCCESS!...".format(cfg.THREAD, name, cmdm))
-										try:
-											print("[THREAD] [{0}] [@{1}] [{2}] [EXIT] [PROCCESS] => CLONE...".format(cfg.THREAD, name, cmdm))
-											importlib.import_module('bots.' + name + '.modules.' + module).exit(cfg)
-											print("[THREAD] [{0}] [@{1}] [{2}] [EXIT] [PROCCESS] => SUCCESS!...".format(cfg.THREAD, name, cmdm))
-										except:
-											pass
 									except:
 										pass
 								elif cmd == txt.split(' ')[0]:
@@ -426,12 +420,6 @@ class pyTelegramApi:
 										pyTelegramApi.request(token, 'deleteMessage', {'chat_id' : cfg.room.id, 'message_id' : cfg.msg.id})
 										importlib.import_module('bots.' + name + '.modules.' + module).main(cfg)
 										print("[THREAD] [{0}] [@{1}] [{2}] [MAIN] [PROCCESS] => SUCCESS!...".format(cfg.THREAD, name, cmdm))
-										try:
-											print("[THREAD] [{0}] [@{1}] [{2}] [EXIT] [PROCCESS] => CLONE...".format(cfg.THREAD, name, cmdm))
-											importlib.import_module('bots.' + name + '.modules.' + module).exit(cfg)
-											print("[THREAD] [{0}] [@{1}] [{2}] [EXIT] [PROCCESS] => SUCCESS!...".format(cfg.THREAD, name, cmdm))
-										except:
-											pass
 									except:
 										pass
 					except:
