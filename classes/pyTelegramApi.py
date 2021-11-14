@@ -390,8 +390,10 @@ class pyTelegramApi:
 				msg.sendMessageById('Ошибка использование меню пожалуйста перезапустите меню...', pyTelegramApi.getRoomId(json_response))
 		except:
 			if	pyTelegramApi.isIgnoreMsg(json_response):
+				pyTelegramApi.bots.pop(_thread.get_ident())
 				return _thread.exit()
 			if	pyTelegramApi.isUsesUser(json_response):
+				pyTelegramApi.bots.pop(_thread.get_ident())
 				if	pyTelegramApi.isModule(json_response):
 					bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
 					msg.sendMessageById('Пожалуйста ожидайте завершение прошлого сеанса', pyTelegramApi.getRoomId(json_response))
