@@ -92,7 +92,7 @@ class msg:
 			if	cfg == False:
 				cfg=pyTelegramApi.getCfgThread()
 			room = cfg.room.id
-		bot=pyTelegramApi.getBot(cfg.bot.name)
+		bot=pyTelegramApi.getBot()
 		pyTelegramApi.request(bot.token, 'sendMessage', {'chat_id' : room, 'text' : txt})
 
 class pyTelegramApi:
@@ -329,6 +329,16 @@ class pyTelegramApi:
 			return json_response['result'][0]['message']['message_id']
 		return False
 
+	def getRoomId(json_response):
+		try:
+			json_response['result'][0]['callback_query']['message']['chat']['id']
+			return json_response['result'][0]['callback_query']['message']['chat']['id']
+		except:
+			json_response['result'][0]['message']['chat']['id']
+			return json_response['result'][0]['message']['chat']['id']
+		return False
+
+
 	def pool(bot, cfg):
 		name=cfg.name
 		try:
@@ -352,14 +362,14 @@ class pyTelegramApi:
 			#bot.cfg[user].THREAD=_thread.get_ident()
 			cfg=bot.cfg[user]
 			#данные сообщение
-			cfg=pyTelegramApi.sniffer(cfg, json_response)
+			#cfg=pyTelegramApi.sniffer(cfg, json_response)
 			#cfg.THREAD=_thread.get_ident()
 			#bot
-			cfg.name=name
+			#cfg.name=name
 			#bot cfg
-			cfg.opt.name=config
-			bot.cfg[user]=cfg
-			pyTelegramApi.pool(bot, cfg)
+			#cfg.opt.name=config
+			#bot.cfg[user]=cfg
+			#pyTelegramApi.pool(bot, cfg)
 		except:
 			pass
 		try:
@@ -377,14 +387,14 @@ class pyTelegramApi:
 				#bot.message_ids.append(json_response['result'][0]['callback_query']['message']['message_id'])
 				#func()
 			else:
-				msg.sendMessage('Ошибка использование меню пожалуйста перезапустите меню...', cfg)
+				msg.sendMessageById('Ошибка использование меню пожалуйста перезапустите меню...', cfg)
 		except:
 			if	pyTelegramApi.isIgnoreMsg(json_response):
 				return _thread.exit()
 			if	pyTelegramApi.isUsesUser(json_response):
 				if	pyTelegramApi.isModule(json_response):
 					bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
-					msg.sendMessage('Пожалуйста ожидайте завершение прошлого сеанса', cfg)
+					msg.sendMessageById('Пожалуйста ожидайте завершение прошлого сеанса', pyTelegramApi.getRoomId(json_response))
 				return _thread.exit()
 			else:
 				#cfg
