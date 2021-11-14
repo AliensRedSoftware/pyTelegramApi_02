@@ -387,7 +387,7 @@ class pyTelegramApi:
 				#bot.message_ids.append(json_response['result'][0]['callback_query']['message']['message_id'])
 				#func()
 			else:
-				msg.sendMessageById('Ошибка использование меню пожалуйста перезапустите меню...', cfg)
+				msg.sendMessageById('Ошибка использование меню пожалуйста перезапустите меню...', pyTelegramApi.getRoomId(json_response))
 		except:
 			if	pyTelegramApi.isIgnoreMsg(json_response):
 				return _thread.exit()
