@@ -4,7 +4,6 @@ token=''
 listcommand=[] #Лист комманд
 prefix='/' #Префикс
 message_ids=[]
-active=[]
 cfg={} # cfg threads...
 
 def main(name, token):
