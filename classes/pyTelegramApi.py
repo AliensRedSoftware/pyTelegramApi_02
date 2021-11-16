@@ -198,6 +198,12 @@ class pyTelegramApi:
 			json_response['result'][0]['message']['message_id']
 			#msg
 			cfg.msg.id=json_response['result'][0]['message']['message_id']
+			#txt
+			try:
+				json_response['result'][0]['message']['text']
+				cfg.msg.txt=json_response['result'][0]['message']['text']
+			except:
+				cfg.msg.txt=json_response['result'][0]['message']['chat']['text']
 			cfg.user.id=json_response['result'][0]['message']['from']['id']
 			cfg.room.id=json_response['result'][0]['message']['chat']['id']
 			cfg.room.type=json_response['result'][0]['message']['chat']['type']
@@ -210,6 +216,12 @@ class pyTelegramApi:
 				json_response['result'][0]['callback_query']['message']['message_id']
 				#msg
 				cfg.msg.id=json_response['result'][0]['callback_query']['message']['message_id']
+				#txt
+				try:
+					json_response['result'][0]['callback_query']['message']['text']
+					cfg.msg.txt=json_response['result'][0]['callback_query']['message']['text']
+				except:
+					cfg.msg.txt=json_response['result'][0]['callback_query']['message']['chat']['text']
 				cfg.user.id=json_response['result'][0]['callback_query']['message']['from']['id']
 				cfg.room.id=json_response['result'][0]['callback_query']['message']['chat']['id']
 				try:
