@@ -7,6 +7,9 @@ name='undefined'
 class InlineKeyBoard:
 	active=False
 
+class env:
+	name='undefined'
+
 class sticker:
 	id=0
 	def sendById(self, id):
