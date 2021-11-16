@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
+import classes.pyTelegramApi
 import os
 import _thread
 import faulthandler
 import sys
 import importlib
 
+def init():
+    pass
 
 def connect(name, token):
     faulthandler.enable()
@@ -13,6 +16,7 @@ def connect(name, token):
     importlib.import_module('bots.'+ name + '.bot').main(name, token)
 
 if __name__ == '__main__':
+    init()
     for bot in os.scandir(os.getcwd() + os.sep + 'tokens'):
         token=open(os.getcwd() + os.sep + 'tokens' + os.sep + bot.name, 'r').read().strip()
         _thread.start_new_thread(connect, (bot.name, token))

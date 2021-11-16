@@ -95,6 +95,24 @@ class msg:
 		bot=pyTelegramApi.getBot()
 		pyTelegramApi.request(bot.token, 'sendMessage', {'chat_id' : room, 'text' : txt})
 
+	def sendMessage_array(arr = ['Привет1', 'Привет2'], cfg=False):
+		if	not cfg:
+			cfg=pyTelegramApi.getCfgBot()
+		bot=pyTelegramApi.getBot()
+		txt = ''
+		for str in arr:
+			txt += str + "\n"
+		pyTelegramApi.request(bot.token, 'sendMessage', {'chat_id' : cfg.room.id, 'text' : txt})
+
+class user:
+
+	def getById(id):
+		bot=pyTelegramApi.getBot()
+		return pyTelegramApi.request(bot.token, 'getChat', {'chat_id' : id})
+
+class env:
+	pass
+
 class pyTelegramApi:
 
 	bots={}
@@ -167,13 +185,6 @@ class pyTelegramApi:
 		else:
 			json_response['result'][0]['message']['chat']['text']
 
-	def sendMessage_array(arr = ['Привет1', 'Привет2'], cfg=False):
-		chatid = pyTelegramApi.getChatId(self)
-		txt = ''
-		for str in arr:
-			txt += str + "\n"
-		pyTelegramApi.request(pyTelegramApi.getToken(self), 'sendMessage', {'chat_id' : chatid, 'text' : txt})
-
 	def getlist(): #Получить список команд
 		bot=pyTelegramApi.getBot()
 		return bot.listcommand
@@ -190,6 +201,7 @@ class pyTelegramApi:
 			cfg.msg.id=json_response['result'][0]['message']['message_id']
 			cfg.user.id=json_response['result'][0]['message']['from']['id']
 			cfg.room.id=json_response['result'][0]['message']['chat']['id']
+			cfg.room.type=json_response['result'][0]['message']['chat']['type']
 			try:
 				cfg.sticker.id=json_response['result'][0]['message']['sticker']['file_id']
 			except:
@@ -393,7 +405,7 @@ class pyTelegramApi:
 				pyTelegramApi.bots.pop(_thread.get_ident())
 				return _thread.exit()
 			if	pyTelegramApi.isUsesUser(json_response):
-				pyTelegramApi.bots.pop(_thread.get_ident())
+				#pyTelegramApi.bots.pop(_thread.get_ident())
 				if	pyTelegramApi.isModule(json_response):
 					bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
 					msg.sendMessageById('Пожалуйста ожидайте завершение прошлого сеанса', pyTelegramApi.getRoomId(json_response))
@@ -408,10 +420,21 @@ class pyTelegramApi:
 				#bot
 				cfg.name=name
 				#bot cfg
-				cfg.opt.name=config
+				cfg.env.name=config
 				bot.cfg[cfg.user.id]=cfg
-				pyTelegramApi.deleteCfg(name, cfg.opt.name)
+				pyTelegramApi.deleteCfg(name, config)
+				#Наш общий
 				pyTelegramApi.pool(bot, cfg)
+				#pool модульный
+				for str in pyTelegramApi.getlist():
+					module = str.split('=')[1]
+					try:
+						bot.message_ids.append(pyTelegramApi.getMessageId(json_response))
+						print("[THREAD] [{0}] [@{1}] [{2}] [POOL] [PROCCESS] => CLONE...".format(cfg.THREAD, name, module))
+						importlib.import_module('bots.' + name + '.modules.' + module).pool(cfg)
+						print("[THREAD] [{0}] [@{1}] [{2}] [POOL] [PROCCESS] => SUCCESS!...".format(cfg.THREAD, name, module))
+					except:
+						pass
 				for	txt in json_response['result'][0]['message']:
 					try:
 						json_response['result'][0]['message']['text']

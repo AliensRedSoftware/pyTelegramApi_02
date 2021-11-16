@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
 THREAD=False
-name='undefined'
 
-class opt:
-	name='undefined'
+name='undefined'
 
 class InlineKeyBoard:
 	active=False
@@ -24,6 +22,7 @@ class msg:
 
 class room:
 	id=0
+	type='undefined'
 
 class user:
 	id=0
