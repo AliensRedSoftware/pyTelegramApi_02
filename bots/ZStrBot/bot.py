@@ -10,6 +10,7 @@ def main(name):
 	api.pyTelegramApi.setToken(name) #Установка токена
 	api.pyTelegramApi.setPrefix(name, '$') #Установка префикса
 	#Команды
+	api.pyTelegramApi.addcommand(name, 'str', 'str.init')
 	#Start proccess threads...
 	api.pyTelegramApi.InitThread(name)
 	api.pyTelegramApi.thread(name)
