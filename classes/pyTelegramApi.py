@@ -121,7 +121,8 @@ class pyTelegramApi:
 		pyTelegramApi.clearCache(name)
 
 	def setToken(name): #Установка токена
-		if	pyTelegramApi.checkToken(name) == False:
+		token='https://api.telegram.org/bot{0}/'.format(open(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'token', 'r').read().strip())
+		if	pyTelegramApi.checkToken(name, token) == False:
 			print('[THREAD] [CONNECT] [@{0}] => FAILED...'.format(name))
 			_thread.exit()
 		else:
@@ -142,8 +143,8 @@ class pyTelegramApi:
 		bot=pyTelegramApi.getBot(name)
 		bot.prefix=prefix
 
-	def	checkToken(name): #Проверка токена
-		if	pyTelegramApi.request('https://api.telegram.org/bot{0}/'.format(open(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'token', 'r').read().strip()), 'getMe'):
+	def	checkToken(name, token): #Проверка токена
+		if	pyTelegramApi.request(token, 'getMe'):
 			return True
 		else:
 			return False
