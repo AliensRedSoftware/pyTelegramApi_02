@@ -9,17 +9,16 @@ import importlib
 def init():
     pass
 
-def connect(name, token):
+def connect(name):
     faulthandler.enable()
     sys.setrecursionlimit(10**9) #Кол-во запросов
     print("[THREAD] [CONNECT] [@{0}] => WAIT...".format(name))
-    importlib.import_module('bots.'+ name + '.bot').main(name, token)
+    importlib.import_module('bots.'+ name + '.bot').main(name, open(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'token', 'r').read().strip())
 
 if __name__ == '__main__':
     init()
-    for bot in os.scandir(os.getcwd() + os.sep + 'tokens'):
-        token=open(os.getcwd() + os.sep + 'tokens' + os.sep + bot.name, 'r').read().strip()
-        _thread.start_new_thread(connect, (bot.name, token))
+    for bot in os.scandir(os.getcwd() + os.sep + 'bots'):
+        _thread.start_new_thread(connect, (bot.name , ))
     while 1:
         pass
     #main.main(open(os.getcwd()+os.sep+'token', 'r').read().strip())

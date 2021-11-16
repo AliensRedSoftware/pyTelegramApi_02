@@ -123,12 +123,12 @@ class pyTelegramApi:
 	def setToken(name, token): #Установка токена
 		token='https://api.telegram.org/bot{0}/'.format(token)
 		if	pyTelegramApi.checkToken(name, token) == False:
-			print('[THREAD] [CFG] [@{0}] => FAILED...'.format(name))
-			sys.exit()
+			print('[THREAD] [CONNECT] [@{0}] => FAILED...'.format(name))
+			_thread.exit()
 		else:
 			bot=pyTelegramApi.getBot(name)
 			bot.token=token
-			print('[THREAD] [CFG] [@{0}] => OK...'.format(name))
+			print('[THREAD] [CONNECT] [@{0}] => OK...'.format(name))
 
 	def getToken(name): #Получение токена
 		bot=pyTelegramApi.getBot(name)
@@ -144,12 +144,9 @@ class pyTelegramApi:
 		bot.prefix=prefix
 
 	def	checkToken(name, token): #Проверка токена
-		json_response = pyTelegramApi.request(token, 'getMe')
-		if	json_response['ok'] == True:
-			print('[THREAD] [CONNECT] [@{0}] => OK...'.format(name))
+		if	pyTelegramApi.request(token, 'getMe'):
 			return True
 		else:
-			print('[THREAD] [CONNECT] [@{0}] => FAILED...'.format(name))
 			return False
 
 	def request(token, method, fields = {}): #Запрос к серверу и возвращение
