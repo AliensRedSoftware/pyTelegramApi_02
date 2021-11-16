@@ -20,7 +20,7 @@ def add(cfg):
 	#add
 	count.write_text(str(eval("{0} + 1".format(count.read_text()))))
 
-def	pool(cfg):
+def pool(cfg):
 	add(cfg)
 
 def getStatsByArray(cfg):
