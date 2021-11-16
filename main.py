@@ -13,7 +13,7 @@ def connect(name):
     faulthandler.enable()
     sys.setrecursionlimit(10**9) #Кол-во запросов
     print("[THREAD] [CONNECT] [@{0}] => WAIT...".format(name))
-    importlib.import_module('bots.'+ name + '.bot').main(name, open(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'token', 'r').read().strip())
+    importlib.import_module('bots.'+ name + '.bot').main(name)
 
 if __name__ == '__main__':
     init()

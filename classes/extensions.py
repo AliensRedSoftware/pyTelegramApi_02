@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-def order(dict1, reverse=False):
+def orderDict(dict1, reverse=False):
     sorted_values = sorted(dict1.values(), reverse=reverse) # Sort the values
     sorted_dict = {}
     for i in sorted_values:

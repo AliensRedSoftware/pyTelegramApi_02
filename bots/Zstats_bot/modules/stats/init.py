@@ -35,7 +35,7 @@ def getStatsByArray(cfg):
 		for user in os.scandir(chat):
 			count=os.path.dirname(__file__) + os.sep + 'supergroups' + os.sep + str(cfg.room.id) + os.sep + str(user.name) + os.sep + 'count'
 			list[user.name]=int(open(count).read())
-		list=ext.order(list, True)
+		list=ext.orderDict(list, True)
 		arr.append('Топ {0} пользователей нашего чата :)'.format(max))
 		arr.append('---')
 		for u in list:

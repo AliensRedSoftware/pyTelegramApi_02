@@ -1,13 +1,13 @@
 import classes.pyTelegramApi as api
 
-token=''
-listcommand=[] #Лист комманд
-prefix='/' #Префикс
-message_ids=[]
-cfg={} # cfg threads...
+token		=	'undefined'
+listcommand	=	[]	#Лист комманд
+prefix		=	'/'	#Префикс
+message_ids	=	[]
+cfg			=	{}	# cfg threads...
 
-def main(name, token):
-	api.pyTelegramApi.setToken(name, token) #Установка токена
+def main(name):
+	api.pyTelegramApi.setToken(name) #Установка токена
 	api.pyTelegramApi.setPrefix(name, '$') #Установка префикса
 	#Команды
 	api.pyTelegramApi.addcommand(name, 'stats', 'stats.init')
