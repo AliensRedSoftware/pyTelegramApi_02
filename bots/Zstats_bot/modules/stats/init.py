@@ -21,7 +21,8 @@ def add(cfg):
 	count.write_text(str(eval("{0} + 1".format(count.read_text()))))
 
 def	pool(cfg):
-	add(cfg)
+	if	cfg.room.type == 'supergroup':
+		add(cfg)
 
 def getStatsByArray(cfg):
 	chat=os.path.dirname(__file__) + os.sep + 'supergroups' + os.sep + str(cfg.room.id)
@@ -49,6 +50,7 @@ def getStatsByArray(cfg):
 					pass
 				try:
 					info['result']['last_name']
+					name+=' '
 					name+=info['result']['last_name']
 				except:
 					pass
