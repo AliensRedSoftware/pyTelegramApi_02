@@ -118,8 +118,6 @@ class pyTelegramApi:
 	bots={}
 
 	def InitThread(name):
-		if	os.path.isdir(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'threads') == False:
-			os.mkdir(os.getcwd() + os.sep + 'bots' + os.sep + name + os.sep + 'threads')
 		pyTelegramApi.clearCache(name)
 
 	def setToken(name): #Установка токена
