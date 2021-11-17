@@ -205,6 +205,7 @@ class pyTelegramApi:
 			except:
 				cfg.msg.txt=json_response['result'][0]['message']['chat']['text']
 			cfg.user.id=json_response['result'][0]['message']['from']['id']
+			#room
 			cfg.room.id=json_response['result'][0]['message']['chat']['id']
 			cfg.room.type=json_response['result'][0]['message']['chat']['type']
 			try:
@@ -223,7 +224,9 @@ class pyTelegramApi:
 				except:
 					cfg.msg.txt=json_response['result'][0]['callback_query']['message']['chat']['text']
 				cfg.user.id=json_response['result'][0]['callback_query']['message']['from']['id']
+				#room
 				cfg.room.id=json_response['result'][0]['callback_query']['message']['chat']['id']
+				cfg.room.type=json_response['result'][0]['callback_query']['message']['chat']['type']
 				try:
 					cfg.sticker.id=json_response['result'][0]['callback_query']['message']['sticker']['file_id']
 				except:

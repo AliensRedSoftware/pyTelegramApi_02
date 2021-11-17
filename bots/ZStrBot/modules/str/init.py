@@ -7,4 +7,4 @@ def	pool(cfg):
     pass
 
 def main(cfg):
-	api.msg.sendMessage('test')
+	api.msg.sendMessage(cfg.msg.txt)

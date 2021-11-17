@@ -21,7 +21,7 @@ class sticker:
 
 class msg:
 	id=0
-	message_id_old=0
+	txt='undefined'
 
 class room:
 	id=0
